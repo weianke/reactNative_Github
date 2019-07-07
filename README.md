@@ -6,7 +6,9 @@
 
 ``` bash
 # install dependencies
-$ npm web  或 yarn web
+$ npm install  或 yarn install
+# serve with hot reload at localhost:8080
+$ npm web   或 yarn web
 
 ```
 
