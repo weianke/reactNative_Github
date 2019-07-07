@@ -1,67 +1,33 @@
 import React, { Component } from 'react'
+import { createBottomTabNavigator, createAppContainer } from 'react-navigation'
 import { Image, FlatList, StyleSheet, Text, View, Button } from 'react-native'
-const REQUEST_URL =
-  'https://raw.githubusercontent.com/facebook/react-native/0.51-stable/docs/MoviesExample.json'
+import MyPage from './MyPage'
+import FavoritePage from './FavoritePage'
+import PopularPage from './PopularPage'
+import TrendingPage from './TrendingPage'
+
 
 export default class HomePage extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      data: [],
-      loaded: false
-    }
-  }
-
-  componentDidMount() {
-    this.fetchData()
-  }
-
-  fetchData() {
-    fetch(REQUEST_URL)
-      .then(response => response.json())
-      .then(resData => {
-        this.setState({
-          data: resData.movies,
-          loaded: true
-        })
-      })
+  _tabNavigator() {
+    return createAppContainer(createBottomTabNavigator({
+      PopularPage: {
+        screen: PopularPage
+      },
+      TrendingPage: {
+        screen: TrendingPage
+      },
+      FavoritePage: {
+        screen: FavoritePage
+      },
+      MyPage: {
+        screen: MyPage
+      }
+    }))
   }
 
   render() {
-    if (!this.state.loaded) {
-      return this.renderLoadingView()
-    }
-    return (
-      <FlatList
-        data={this.state.data}
-        renderItem={this.renderMovie}
-        style={StyleSheet.list}
-        keyExtractor={item => item.id}
-      />
-    )
-  }
-
-  renderLoadingView() {
-    return (
-      <View style={styles.container}>
-        <Text>Loading Movie...</Text>
-      </View>
-    )
-  }
-
-  renderMovie({ item }) {
-    return (
-      <View style={styles.container}>
-        <Image
-          source={{ uri: item.posters.thumbnail }}
-          style={styles.thumbnail}
-        />
-        <View style={styles.rightCcontainer}>
-          <Text style={styles.title}>{item.title}</Text>
-          <Text style={styles.year}>{item.year}</Text>
-        </View>
-      </View>
-    )
+    const Tab = this._tabNavigator();
+    return <Tab />
   }
 }
 

@@ -2,7 +2,8 @@ import {
   createStackNavigator,
   createMaterialTopTabNavigator,
   createBottomTabNavigator,
-  createSwitchNavigator
+  createSwitchNavigator,
+  createAppContainer
 } from 'react-navigation'
 import welcomePage from '../screens/welcomePage'
 import HomePage from '../screens/HomePage'
