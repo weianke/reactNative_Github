@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { setDataId } from './../store/actions'
+import { setDataId } from '../store/actions'
 import { View, Text, Button } from 'react-native'
 
-class HomeDetail extends Component {
+class DetailPage extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -52,4 +52,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(HomeDetail)
+)(DetailPage)

@@ -2,8 +2,7 @@ import {
   createStackNavigator,
   createMaterialTopTabNavigator,
   createBottomTabNavigator,
-  createSwitchNavigator,
-  createAppContainer
+  createSwitchNavigator
 } from 'react-navigation'
 import welcomePage from '../screens/welcomePage'
 import HomePage from '../screens/HomePage'
@@ -34,16 +33,16 @@ const MainNavigator = createStackNavigator({
 })
 
 // 初始化导航是启动页面，只加载一次，无法返回，Main区域是主要内容
-const AppNavigator = createSwitchNavigator(
-  {
-    Init: InitNavigator,
-    Main: MainNavigator
-  },
-  {
-    navigationOptions: {
-      header: null
+export const RootNavigator = createAppContainer(
+  createSwitchNavigator(
+    {
+      Init: InitNavigator,
+      Main: MainNavigator
+    },
+    {
+      navigationOptions: {
+        header: null // 可以通过将header设为null 来禁用StackNavigator的Navigation Bar
+      }
     }
-  }
+  )
 )
-
-export default createAppContainer(AppNavigator)
