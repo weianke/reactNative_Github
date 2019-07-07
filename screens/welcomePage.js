@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import NavigationUtil from '../navigation/NavigationUti'
+import NavigationUtil from '../navigation/NavigationUtil'
 
 
 export default class welcomePage extends Component {
@@ -9,7 +9,7 @@ export default class welcomePage extends Component {
        NavigationUtil.resetToHomePage({
          navigation: this.props.navigation
        })
-    }, 2000);
+    }, 200);
   }
 
   componentWillUnmount () {
