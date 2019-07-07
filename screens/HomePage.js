@@ -1,95 +1,23 @@
 import React, { Component } from 'react'
+import { createBottomTabNavigator, createAppContainer } from 'react-navigation'
 import { Image, FlatList, StyleSheet, Text, View, Button } from 'react-native'
-const REQUEST_URL =
-  'https://raw.githubusercontent.com/facebook/react-native/0.51-stable/docs/MoviesExample.json'
+import MyPage from './MyPage'
+import FavoritePage from './FavoritePage'
+import PopularPage from './PopularPage'
+import TrendingPage from './TrendingPage'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons'
+import Entypo from 'react-native-vector-icons/Entypo'
+import NavigationUtil from '../navigation/NavigationUtil'
+import DynamicTabNavigator from '../navigation/DynamicTabNavigator'
 
 export default class HomePage extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      data: [],
-      loaded: false
-    }
-  }
-
-  componentDidMount() {
-    this.fetchData()
-  }
-
-  fetchData() {
-    fetch(REQUEST_URL)
-      .then(response => response.json())
-      .then(resData => {
-        this.setState({
-          data: resData.movies,
-          loaded: true
-        })
-      })
-  }
 
   render() {
-    if (!this.state.loaded) {
-      return this.renderLoadingView()
-    }
+    // 保存外层的路由, 缓存外部导航，作为内部掉外部的功能
+    NavigationUtil.navigation = this.props.navigation
     return (
-      <FlatList
-        data={this.state.data}
-        renderItem={this.renderMovie}
-        style={StyleSheet.list}
-        keyExtractor={item => item.id}
-      />
-    )
-  }
-
-  renderLoadingView() {
-    return (
-      <View style={styles.container}>
-        <Text>Loading Movie...</Text>
-      </View>
-    )
-  }
-
-  renderMovie({ item }) {
-    return (
-      <View style={styles.container}>
-        <Image
-          source={{ uri: item.posters.thumbnail }}
-          style={styles.thumbnail}
-        />
-        <View style={styles.rightCcontainer}>
-          <Text style={styles.title}>{item.title}</Text>
-          <Text style={styles.year}>{item.year}</Text>
-        </View>
-      </View>
+        <DynamicTabNavigator />
     )
   }
 }
-
-var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF'
-  },
-  rightCcontainer: {
-    flex: 1
-  },
-  title: {
-    fontSize: 20,
-    marginBottom: 8,
-    textAlign: 'center'
-  },
-  year: {
-    textAlign: 'center'
-  },
-  thumbnail: {
-    width: 53,
-    height: 81
-  },
-  list: {
-    paddingTop: 20,
-    backgroundColor: '#F5FCFF'
-  }
-})
