@@ -78,11 +78,15 @@ class DynamicTabNavigator extends Component {
   }
 
   _tabNavigator() {
+    // 底部导航已经有了之后，state更新防止重新生成，避免回调到第一个tab
+    if(this.Tabs) {
+      return this.Tabs;
+    }
     // 取出tabs显示的页面
     const { PopularPage, FavoritePage, MyPage, TrendingPage } = TABS
     const tabs = { PopularPage, TrendingPage , FavoritePage, MyPage} // 根据需要定制显示的tab
     PopularPage.navigationOptions.tabBarLabel = '最热'; // 动态配置Tab属性
-    return this.tabs = createAppContainer(createBottomTabNavigator(tabs, {
+    return this.Tabs = createAppContainer(createBottomTabNavigator(tabs, {
       tabBarComponent: props=> {
         return <TabBarComponent theme={this.props.theme} {...props}/>
       }
