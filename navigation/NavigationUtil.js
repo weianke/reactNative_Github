@@ -4,7 +4,6 @@
  * 全局导航跳转工具类
  * @class NavigationUtil
  */
-
 export default class NavigationUtil {
   /**
    *跳转到指定页面

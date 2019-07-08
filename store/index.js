@@ -1,10 +1,13 @@
-import { createStore, applyMiddleware } from 'redux';
+import {applyMiddleware, createStore} from 'redux'
 import thunk from 'redux-thunk'
-import reducers from './reducers'
+import reducers from '../reducer'
+import { middleware } from '../navigation/AppNavigator'
 
-let store = createStore(
-  reducers,
-  applyMiddleware(thunk)
-)
-
-export default store;
+const middlewares = [
+  middleware,
+  thunk
+];
+/**
+ * 创建store
+ */
+export default createStore(reducers, applyMiddleware(...middlewares));
