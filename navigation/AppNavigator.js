@@ -9,7 +9,7 @@ import welcomePage from '../screens/welcomePage'
 import HomePage from '../screens/HomePage'
 import DetailPage from '../screens/DetailPage'
 import {connect} from 'react-redux'
-import {createReactNavigationReduxMiddleware, createReduxContainer} from 'react-navigation-redux-helpers'
+import {createReactNavigationReduxMiddleware, reduxifyNavigator} from 'react-navigation-redux-helpers';
 
 export const rootCom = 'Init';//设置根路由
 
@@ -60,17 +60,16 @@ export const RootNavigator = createAppContainer(
  * @type {Middleware}
  */
 export const middleware = createReactNavigationReduxMiddleware(
-     state => state.nav,
-    'root'
+    'root',
+    state => state.nav
 );
-
 
 /**
  * 2.将根导航器组件传递给 reduxifyNavigator 函数,
  * 并返回一个将navigation state 和 dispatch 函数作为 props的新组件；
  * 注意：要在createReactNavigationReduxMiddleware之后执行
  */
-const AppWithNavigationState = createReduxContainer(RootNavigator, 'root')
+const AppWithNavigationState = reduxifyNavigator(RootNavigator, 'root');
 
 /**
  * State到Props的映射关系
