@@ -1,10 +1,24 @@
-import { createStore, applyMiddleware } from 'redux';
+import {applyMiddleware, createStore} from 'redux'
 import thunk from 'redux-thunk'
-import reducers from './reducers'
+import reducers from '../reducer'
+import { middleware } from '../navigation/AppNavigator'
 
-let store = createStore(
-  reducers,
-  applyMiddleware(thunk)
-)
+const logger = store => next => action => {
+  if (typeof action === 'function') {
+    console.log('dispatching a function');
+  } else {
+    console.log('dispatching', action);
+  }
+  const result = next(action);
+  console.log('nextState', store.getState());
+}
 
-export default store;
+const middlewares = [
+  middleware,
+  logger,
+  thunk
+];
+/**
+ * 创建store
+ */
+export default createStore(reducers, applyMiddleware(...middlewares));
