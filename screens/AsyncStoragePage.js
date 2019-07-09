@@ -1,18 +1,17 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
 import { View, Text, TextInput, StyleSheet, AsyncStorage } from 'react-native'
 
-const KEY = "save_key";
+const KEY = 'save_key'
 export default class AsyncStoragePage extends Component {
-
-  constructor (props) {
+  constructor(props) {
     super(props)
-     this.state = {
-       value: ''
-     }
+    this.state = {
+      value: ''
+    }
   }
- 
-  doSave (){
+
+  doSave() {
     AsyncStorage.setItem(KEY, this.state.value, err => {
       err && console.log(err.toString())
     })
@@ -21,16 +20,16 @@ export default class AsyncStoragePage extends Component {
     })
   }
 
-  doRemove () {
+  doRemove() {
     AsyncStorage.removeItem(KEY)
   }
 
-  getData () {
-     AsyncStorage.getItem(KEY).then(value => {
-       this.setState({
-         value: value
-       })
-     })
+  getData() {
+    AsyncStorage.getItem(KEY).then(value => {
+      this.setState({
+        value: value
+      })
+    })
   }
 
   render() {
@@ -75,7 +74,6 @@ export default class AsyncStoragePage extends Component {
   }
 }
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -99,4 +97,3 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around'
   }
 })
-
