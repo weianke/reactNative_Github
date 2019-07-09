@@ -82,6 +82,19 @@ class PopularTab extends Component {
             }}
           />
         </View>
+        <View style={{ marginTop: 10 }}>
+          <Button
+            title="跳转DataStorage页面"
+            onPress={() => {
+              NavigationUti.goPage(
+                {
+                  navigation: this.props.navigation
+                },
+                'DataStoreDemo'
+              )
+            }}
+          />
+        </View>
       </View>
     )
   }
