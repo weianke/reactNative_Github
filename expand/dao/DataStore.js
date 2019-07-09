@@ -14,18 +14,19 @@ export default class DataStore {
         } else {
           this.fetchNetData(url).then((data) => {
             resolve(this._wrapData(data));
-          }).catch(error) => {
+          }).catch((error) => {
             reject(error)
           })
         }
       }).catch((error) => {
         this.fetchNetData(url).then((data) => {
             resolve(this._wrapData(data));
-          }).catch(error) => {
+          }).catch((error) => {
             reject(error)
           })
       })
-  }
+  })
+}
   /**
    * 获取本地数据
    * @param {*} url
@@ -56,7 +57,7 @@ export default class DataStore {
    * @memberof DataStore
    */
   fetchNetData(url) {
-    return new Promise((reslove, reject) => {
+    return new Promise((resolve, reject) => {
       fetch(url).then((response) => {
         if (response.ok) {
           return response.json();
@@ -83,7 +84,7 @@ export default class DataStore {
   }
 
   _wrapData(data) {
-    return { data: data, timetamp: new Date().getTime() }
+    return { data: data, timestamp: new Date().getTime() }
   }
 
    /**
