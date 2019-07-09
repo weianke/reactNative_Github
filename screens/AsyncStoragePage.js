@@ -1,35 +1,73 @@
 import React, { Component } from 'react';
 
-import { View, Text } from 'react-native';
+import { View, Text, TextInput, StyleSheet, AsyncStorage } from 'react-native'
 
+const KEY = "save_key";
 export default class AsyncStoragePage extends Component {
 
+  constructor (props) {
+    super(props)
+     this.state = {
+       value: ''
+     }
+  }
+ 
   doSave (){
-
+    AsyncStorage.setItem(KEY, this.state.value, err => {
+      err && console.log(err.toString())
+    })
+    this.setState({
+      value: ''
+    })
   }
 
   doRemove () {
-
+    AsyncStorage.removeItem(KEY)
   }
 
   getData () {
-
+     AsyncStorage.getItem(KEY).then(value => {
+       this.setState({
+         value: value
+       })
+     })
   }
 
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>AsyncStoragePage 页面</Text>
+        <TextInput
+          style={styles.input}
+          value={this.state.value}
+          onChangeText={text => {
+            this.setState({
+              value: text
+            })
+          }}
+        />
         <View style={styles.input_container}>
-          <Text onPress={() => {
-            this.doSave()
-          }}>存储</Text>
-          <Text onPress={() => {
-            this.doRemove()
-          }}>删除</Text>
-           <Text onPress={() => {
-            this.getData()
-          }}>获取</Text>
+          <Text
+            onPress={() => {
+              this.doSave()
+            }}
+          >
+            存储
+          </Text>
+          <Text
+            onPress={() => {
+              this.doRemove()
+            }}
+          >
+            删除
+          </Text>
+          <Text
+            onPress={() => {
+              this.getData()
+            }}
+          >
+            获取
+          </Text>
         </View>
         <Text />
       </View>
@@ -57,7 +95,8 @@ const styles = StyleSheet.create({
   },
   input_container: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'space-around'
   }
 })
 
