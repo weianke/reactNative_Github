@@ -141,7 +141,6 @@ class PopularTab extends Component {
 
   render() {
     let store = this._store();
-    console.log('projectModels+++++++', store)
     return (
       <View style={styles.container}>
         <FlatList
@@ -163,6 +162,7 @@ class PopularTab extends Component {
           }
           ListFooterComponent={() => this.genIndicator()}
           onEndReached={() => {
+            console.log('---onEndReached--')
             this.loadData(true)
           }}
           onEndReachedThreshold={0.5}
