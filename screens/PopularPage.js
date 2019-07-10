@@ -19,7 +19,7 @@ import NavigationUti from '../navigation/NavigationUtil'
 const URL = 'https://api.github.com/search/repositories?q='
 const QUERY_STR = '&sort=stars'
 const TITLE_COLOR = 'red'
-export default class PopularPage extends Component {
+class PopularPage extends Component {
   constructor(props) {
     super(props)
     this.tabNames = ['java', 'Android', 'iOS', 'React', 'React Native', 'PHP'];
@@ -41,6 +41,7 @@ export default class PopularPage extends Component {
 
   render() {
     const {theme} = this.props;
+    console.log('theme', theme);
     const TabNavigator = createAppContainer(
       createMaterialTopTabNavigator(this._getTabs(), {
         tabBarOptions: {
@@ -56,8 +57,6 @@ export default class PopularPage extends Component {
         }
       })
     )
-      console.log('tabs', this._getTabs())
-
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
         <View style={styles.container}>
@@ -67,6 +66,12 @@ export default class PopularPage extends Component {
     )
   }
 }
+
+const mapPopularStateToProps = state => ({
+  theme: state.theme.theme
+})
+
+export default connect(mapPopularStateToProps)(PopularPage)
 
 class PopularTab extends Component {
   constructor(props) {
@@ -107,6 +112,7 @@ class PopularTab extends Component {
         isLoading: false
       }
     }
+    // console.log('loading-----',  store.isLoading);
     return (
       <View style={styles.container}>
         <FlatList
@@ -133,7 +139,7 @@ class PopularTab extends Component {
 }
 const mapStateToProps = state => ({
   popular: state.popular,
-  theme: state.theme
+  theme: state.theme.theme
 })
 
 const mapDispatchToProps = dispatch => ({
