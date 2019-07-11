@@ -86,15 +86,19 @@ export default class DataStore {
             reject(error)
           })
       } else {
-        new Trending().fetchTrending(url).then(items => {
-          if (!items) {
-            throw new Error('resdata is null')
-          }
-          this.saveData(url, items);
-          resolve(items);
-        }).catch(error => {
-          reject(error)
-        })
+        fetch(url)
+          .then(response => {
+            if (response.ok) {
+              return response.json()
+            }
+          })
+          .then(responseData => {
+            this.saveData(url, responseData)
+            resolve(responseData)
+          })
+          .catch(error => {
+            reject(error)
+          })
       }
     })
   }

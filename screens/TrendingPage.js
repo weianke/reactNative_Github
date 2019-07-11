@@ -20,8 +20,8 @@ import NavigationUti from '../navigation/NavigationUtil'
 import NavigationBar from '../common/NavigationBar'
 import PopularItem from '../common/PopularItem'
 
-const URL = 'https://github.com/trending/'
-const QUERY_STR = '?since=daily'
+const URL = 'https://api.github.com/search/repositories?q='
+const QUERY_STR = '&sort=stars'
 const THEME_COLOR = '#678'
 class TrendingPage extends Component {
   constructor(props) {
@@ -188,7 +188,7 @@ class TrendingTab extends Component {
           data={store.projectModels}
           //item显示的布局
           renderItem={data => this.renderItem(data)}
-          keyExtractor={item => '' + item.item.fullName}
+          keyExtractor={item => '' + item.id}
           refreshing={store.isLoading}
           onRefresh={() => this.loadData()}
           ListHeaderComponent={() => this.getLoadingHeader()}
