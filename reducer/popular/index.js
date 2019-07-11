@@ -46,7 +46,7 @@ export default function onAction(state = defaultState, action) {
         ...state,
         [action.storeName]: {
           ...state[action.storeName],
-          isLoading: false
+          isLoading: true
         }
       }
     case Types.POPULAR_LOAD_MORE_SUCCESS: // 上拉加载更多成功

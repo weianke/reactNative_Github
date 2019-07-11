@@ -82,6 +82,7 @@ class PopularTab extends Component {
     super(props)
     const { tabLabel } = this.props
     this.storeName = tabLabel
+    this.loading = false
   }
 
   componentDidMount() {
@@ -93,9 +94,15 @@ class PopularTab extends Component {
     const store = this._store()
     const url = this.genFetchUrl(this.storeName) // 通过storeName 生成url
     if (loadMore) {
-      onLoadMorePopular(this.storeName, ++store.pageIndex, pageSize, store.items, callBack => {
-        this.refs.toast.show('没有更多了')
-      })
+      onLoadMorePopular(
+        this.storeName,
+        ++store.pageIndex,
+        pageSize,
+        store.items,
+        callBack => {
+          this.refs.toast.show('没有更多了')
+        }
+      )
     } else {
       onRefreshPopular(this.storeName, url, pageSize)
     }
@@ -116,9 +123,9 @@ class PopularTab extends Component {
    * @private
    */
   _store() {
-    const { popular } = this.props;
-    let store = popular[this.storeName];
-    
+    const { popular } = this.props
+    let store = popular[this.storeName]
+
     if (!store) {
       store = {
         items: [],
@@ -133,14 +140,35 @@ class PopularTab extends Component {
   genIndicator() {
     return this._store().hideLoadingMore ? null : (
       <View style={styles.indicatorContainer}>
-        <ActivityIndicator color="red" style={{margin: 10}}/>
+        <ActivityIndicator color="red" style={{ margin: 10 }} />
         <Text>正在加载更多</Text>
       </View>
     )
   }
 
+  getEmpty() {
+    return (
+      <View style={styles.emptyContainer}>
+        <ActivityIndicator color="red" style={{ margin: 10 }} />
+        <Text>Loading</Text>
+      </View>
+    )
+  }
+
+  getLoadingHeader() {
+    return this._store().isLoading ? (
+      <View style={styles.indicatorContainer}>
+        <ActivityIndicator color="red" style={{ margin: 10 }} />
+        <Text>头部刷新</Text>
+      </View>
+    ) : null
+  }
+
   render() {
-    let store = this._store();
+    let store = this._store()
+    if (store.isLoading) {
+      return this.getEmpty()
+    }
     return (
       <View style={styles.container}>
         <FlatList
@@ -149,17 +177,20 @@ class PopularTab extends Component {
           //item显示的布局
           renderItem={data => this.renderItem(data)}
           keyExtractor={item => '' + item.id}
+          refreshing={store.isLoading}
+          onRefresh={() => this.loadData()}
+          ListHeaderComponent={() => this.getLoadingHeader()}
           //下拉刷新相关
-          refreshControl={
-            <RefreshControl
-              title={'Loading'}
-              titleColor={TITLE_COLOR}
-              colors={[TITLE_COLOR]}
-              refreshing={store.isLoading}
-              onRefresh={() => this.loadData()}
-              tintColor={TITLE_COLOR}
-            />
-          }
+          // refreshControl={
+          //   <RefreshControl
+          //     title={'Loading'}
+          //     titleColor={TITLE_COLOR}
+          //     colors={[TITLE_COLOR]}
+          //     refreshing={store.isLoading}
+          //     onRefresh={() => this.loadData()}
+          //     tintColor={TITLE_COLOR}
+          //   />
+          // }
           ListFooterComponent={() => this.genIndicator()}
           onEndReached={() => {
             console.log('---onEndReached--')
@@ -216,5 +247,11 @@ const styles = StyleSheet.create({
   indicator: {
     color: 'red',
     margin: 10
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF'
   }
 })
