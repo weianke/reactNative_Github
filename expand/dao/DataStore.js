@@ -1,5 +1,4 @@
 import { AsyncStorage } from 'react-native'
-import Trending from 'GitHubTrending'
 
 export const FLAG_STORAGE = {
   flag_popular: 'popular',

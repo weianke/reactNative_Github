@@ -1060,10 +1060,6 @@
     lodash "^4.5.0"
     prop-types "^15.6.1"
 
-GitHubTrending@3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/GitHubTrending/-/GitHubTrending-3.0.1.tgz#61d81a481b2af53f69c0b499e92dc27135541e88"
-
 abab@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/abab/-/abab-2.0.0.tgz#aba0ab4c5eee2d4c79d3487d85450fb2376ebb0f"
@@ -5245,6 +5241,13 @@ react-native-web@^0.11.4:
 react-native-webview@5.8.1:
   version "5.8.1"
   resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-5.8.1.tgz#6f5a83dec55bbc02700155b1a16a668870f14de0"
+  dependencies:
+    escape-string-regexp "1.0.5"
+    invariant "2.2.4"
+
+react-native-webview@^5.12.1:
+  version "5.12.1"
+  resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-5.12.1.tgz#5e2b124e9087d64fc40040d911c10ee5744b5d4d"
   dependencies:
     escape-string-regexp "1.0.5"
     invariant "2.2.4"
