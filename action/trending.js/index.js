@@ -1,34 +1,34 @@
 import Types from '../types'
-import DataStore, { FLAG_STORAGE } from '../../expand/dao/DataStore'
+import DataStore, {FLAG_STORAGE} from '../../expand/dao/DataStore'
 import {handleData} from '../ActionUtil'
 
 /**
- * 获取最热模块的异步action
- * @param {*} storeName
- * @param {*} url
- * @param {*} pageSize
- * @returns
+ * 获取最热数据的异步action
+ * @param storeName
+ * @param url
+ * @param pageSize
+ * @param favoriteDao
+ * @returns {function(*=)}
  */
-export function onRefreshPopular(storeName, url, pageSize) {
-  return async dispatch => {
-    dispatch({ type: Types.POPULAR_REFRESH, storeName: storeName }) // 首先会触发刷新的action
-    let dataStore = new DataStore()
-    //异步action与数据流
-    dataStore
-      .fetchData(url, FLAG_STORAGE.flag_popular)
-      .then(data => {
-        handleData(Types.POPULAR_REFRESH_SUCCESS, dispatch, storeName, data, pageSize)
-      })
-      .catch(error => {
-        console.log(error)
-        dispatch({
-          type: Types.POPULAR_REFRESH_FAIL,
-          storeName,
-          error
-        })
-      })
-  }
+export function onRefreshTrending(storeName, url, pageSize,favoriteDao) {
+    return dispatch => {
+        dispatch({type: Types.TRENDING_REFRESH, storeName: storeName});
+        let dataStore = new DataStore();
+        dataStore.fetchData(url, FLAG_STORAGE.flag_trending)//异步action与数据流
+            .then(data => {
+                handleData(Types.TRENDING_REFRESH_SUCCESS, dispatch, storeName, data, pageSize)
+            })
+            .catch(error => {
+                console.log(error);
+                dispatch({
+                  type: Types.TRENDING_REFRESH_FAIL,
+                  storeName,
+                  error
+                })
+            })
+    }
 }
+
 /**
  * 加载更多
  * @param storeName
@@ -39,7 +39,7 @@ export function onRefreshPopular(storeName, url, pageSize) {
  * @param favoriteDao
  * @returns {function(*)}
  */
-export function onLoadMorePopular(
+export function onLoadMoreTrending(
   storeName,
   pageIndex,
   pageSize,
@@ -55,7 +55,7 @@ export function onLoadMorePopular(
           callBack('no more')
         }
         dispatch({
-          type: Types.POPULAR_LOAD_MORE_FAIL,
+          type: Types.TRENDING_LOAD_MORE_FAIL,
           error: 'no more',
           storeName: storeName,
           pageIndex: --pageIndex,
@@ -65,7 +65,7 @@ export function onLoadMorePopular(
         // 本次可载入的最大数量
         let max = pageSize * pageIndex > dataArray.length ? dataArray.length : pageSize * pageIndex;
         dispatch({
-          type: Types.POPULAR_LOAD_MORE_SUCCESS,
+          type: Types.TRENDING_LOAD_MORE_SUCCESS,
           storeName,
           pageIndex,
           projectModels: dataArray.slice(0, max)
